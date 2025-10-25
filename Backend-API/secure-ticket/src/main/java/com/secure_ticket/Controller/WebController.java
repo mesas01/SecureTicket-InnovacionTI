@@ -9,16 +9,24 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.secure_ticket.Model.Admin;
 import com.secure_ticket.Model.User;
+import com.secure_ticket.Repository.EventRepository;
 import com.secure_ticket.Service.UserService;
+
+import jakarta.servlet.http.HttpSession;
 
 
 
 
 @Controller
 public class WebController {
+    @Autowired
+    private EventRepository eventRepository;
+
     @GetMapping("/")
-    public String showMainPage() {
+    public String showMainPage(Model model) {
+        model.addAttribute("events", eventRepository.findAll());
         return "MainPage.html";
     }
 
@@ -38,7 +46,7 @@ public class WebController {
             userService.registerNewUser(user);
 
             model.addAttribute("successMessage", "✅ ¡Registro exitoso!");
-            return "redirect:/";
+            return "redirect:/login";
 
         } catch (DataIntegrityViolationException e) {
             
@@ -58,17 +66,33 @@ public class WebController {
 
     @PostMapping("/login")
     public String processLogin(
-        @RequestParam("username") String loginIdentifier, // <-- Renombramos la variable
+        @RequestParam("username") String loginIdentifier,
         @RequestParam("password") String password,
-        Model model) {
+        Model model,
+        HttpSession session) {
+        
         User authenticatedUser = userService.validateCredentials(loginIdentifier, password);
         
         if (authenticatedUser != null) {
+            session.setAttribute("currentUser", authenticatedUser.getUsername());
+
+            if (authenticatedUser instanceof Admin) { 
+            return "redirect:/admin";
+        } else {
             return "redirect:/";
+        }
             
         } else {
             model.addAttribute("error", "Nombre de usuario, correo electrónico o contraseña incorrectos.");
             return "login.html";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("currentUser");
+        session.invalidate();
+        
+        return "redirect:/";
     }
 }

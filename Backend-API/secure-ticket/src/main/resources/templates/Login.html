@@ -10,7 +10,7 @@
     <div class="form-container">
         <h1>Iniciar Sesión</h1>
 
-        <div th:if="${param.error}" class="message error-message">
+        <div th:if="${error}" class="message error-message">
             <p>❌ Nombre de usuario o contraseña incorrectos.</p>
         </div>
 

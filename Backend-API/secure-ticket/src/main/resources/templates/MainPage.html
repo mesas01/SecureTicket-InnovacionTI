@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmls:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Secure Ticket</title>
@@ -7,94 +7,64 @@
 </head>
 <body>
     <div class="boleta-plataforma dark-minimal">
-    <header class="header">
-        <h1 class="logo">Secure Ticket</h1>
-        <nav class="nav">
-            <a th:href="@{/eventos}" class="nav-link">Eventos</a>
-            <a th:href="@{/vender}" class="nav-link">Vender</a>
-            <a th:href="@{/ayuda}" class="nav-link">Soporte</a>
-        </nav>
-        <div class="usuario-acciones">
-            <a th:href="@{/register}" class="btn btn-ghost">Registrarse</a>
-            <a th:href="@{/login}" class="btn btn-primary">Iniciar Sesión</a>
-        </div>
-    </header>
-    <main class="main-contenido">
-        <h2>Descubre Experiencias Inolvidables</h2>
-        <section class="filtro-busqueda">
-            <div class="search-box">
-                <input type="text" placeholder="Buscar conciertos, deportes, teatro..." class="search-input"/>
-                <button class="btn-icon">
-                    <span role="img" aria-label="Buscar">🔍</span>
-                </button>
+        <header class="header">
+            <h1 class="logo">Secure Ticket</h1>
+            <nav class="nav">
+                <a th:href="@{/eventos}" class="nav-link">Eventos</a>
+                <a th:href="@{/vender}" class="nav-link">Vender</a>
+                <a th:href="@{/ayuda}" class="nav-link">Soporte</a>
+            </nav>
+            <div class="usuario-acciones">
+                <span th:if="${session.currentUser}">
+                    <span class="user-greeting" th:text="'Hola, ' + ${session.currentUser} + '!'">Hola, Usuario!</span>
+                    <a th:href="@{/logout}" class="btn btn-ghost logout-btn">Cerrar Sesión</a>
+                </span>
+                <span th:unless="${session.currentUser}">
+                    <a th:href="@{/register}" class="btn btn-ghost">Registrarse</a>
+                    <a th:href="@{/login}" class="btn btn-primary">Iniciar Sesión</a>
+                </span>
             </div>
-            <button class="btn btn-secondary">Filtrar</button>
-        </section>
-        <div class="eventos-wrapper">
-            <article class="tarjeta-evento dark-card">
-                <img th:src="@{/Images/Bad Bunny.jpg}" alt="Concierto de Bad Bunny" class="imagen-evento">
-                <div class="info-evento">
-                    <span class="fecha">23,24 y 25 MAR 2026</span>
-                    <h3 class="titulo-evento">Debí Tirar Más Fotos - Bad Bunny</h3>
-                    <p class="lugar">Estadio Atanasio Girardot - Medellín, CO</p>
-                    <div class="detalle-venta">
-                        <span class="precio-desde highlight-price">Desde $1.000.000 COP</span>
-                    </div>
-                    <button class="btn btn-full">Comprar Boletas</button>
+        </header>
+        <main class="main-contenido">
+            <h2>Descubre Experiencias Inolvidables</h2>
+            <section class="filtro-busqueda">
+                <div class="search-box">
+                    <input type="text" placeholder="Buscar conciertos, deportes, teatro..." class="search-input"/>
+                    <button class="btn-icon">
+                        <span role="img" aria-label="Buscar">🔍</span>
+                    </button>
                 </div>
-            </article>
-            <article class="tarjeta-evento dark-card">
-                <img th:src="@{/Images/Piano.jpg}" alt="Concierto para piano NO.2 OP.18 en DO menor" class="imagen-evento">
-                <div class="info-evento">
-                    <span class="fecha">02 DIC 2025</span>
-                    <h3 class="titulo-evento">Concierto para piano NO.2 OP.18 en DO menor</h3>
-                    <p class="lugar">Auditorio Fabio Lozano - Bogotá, CO</p>
-                    <div class="detalle-venta">
-                        <span class="precio-desde highlight-price">Desde $150.000 COP</span>
+                <button class="btn btn-secondary">Filtrar</button>
+            </section>
+            
+            <div class="eventos-wrapper">
+                <!-- El bucle th:each se coloca en la etiqueta <article> para generar una tarjeta por cada evento -->
+                <article th:each="event : ${events}" class="tarjeta-evento dark-card">
+                    
+                    <!-- 1. Imagen (ahora toma el src de Cloudinary) -->
+                    <img th:src="@{${event.imageUrl}}" alt="Imagen del Evento" class="imagen-evento">
+                    
+                    <div class="info-evento">
+                        <!-- 2. Fecha -->
+                        <p class="fecha" th:text="'Fecha: ' + ${event.date}"></p>
+                        <!-- 3. Título/Nombre -->
+                        <h3 class="titulo-evento" th:text="${event.name}"></h3>
+                        <!-- 4. Lugar/Ubicación -->
+                        <p class="lugar" th:text="'Lugar: ' + ${event.location}"></p>
+                        <!-- 5. Artista (Sintaxis Thymeleaf corregida) -->
+                        <p class="artista" th:text="'Artista: ' + ${event.artist}"></p>
+
+                        <!-- Aquí puedes añadir un botón o enlace para ver los detalles -->
+                        <a th:href="@{'/eventos/' + ${event.id}}" class="btn btn-full">Ver Detalles</a>
                     </div>
-                    <button class="btn btn-full">Comprar Boletas</button>
-                </div>
-            </article>
-            <article class="tarjeta-evento dark-card">
-                <img th:src="@{/Images/Silvestre.jpg}" alt="Monólogo de Comedia" class="imagen-evento">
-                <div class="info-evento">
-                    <span class="fecha">30 AGO 2025</span>
-                    <h3 class="titulo-evento">El ultimo baile - Silvestre Dangon</h3>
-                    <p class="lugar">Estadio El Campín - Bogotá, CO</p>
-                    <div class="detalle-venta">
-                        <span class="precio-desde highlight-price">Desde $250.000 COP</span>
-                    </div>
-                    <button class="btn btn-full">Comprar Boletas</button>
-                </div>
-            </article>
-            <article class="tarjeta-evento dark-card">
-                <img th:src="@{/Images/Mar.jpg}" alt="Obra de Teatro: El Último Acto" class="imagen-evento">
-                <div class="info-evento">
-                    <span class="fecha">19 OCT 2025</span>
-                    <h3 class="titulo-evento">Mar Barroco</h3>
-                    <p class="lugar">Biblioteca Luis Angel Arango - Bogotá, CO</p>
-                    <div class="detalle-venta">
-                        <span class="precio-desde highlight-price">Desde $80.000 COP</span>
-                    </div>
-                        <button class="btn btn-full">Comprar Boletas</button>
-                </div>
-            </article>
-            <article class="tarjeta-evento dark-card">
-                <img th:src="@{/Images/JP.jpg}" alt="Festival de Música Electrónica" class="imagen-evento">
-                <div class="info-evento">
-                    <span class="fecha">20 OCT 2025</span>
-                    <h3 class="titulo-evento">JP Saxe</h3>
-                    <p class="lugar">Royal Center - Bogotá, CO</p>
-                    <div class="detalle-venta">
-                        <span class="precio-desde highlight-price">NO DISPONIBLE</span>
-                    </div>
-                    <button class="btn btn-full">Comprar Boletas</button>
-                </div>
-            </article>
-        </div>
-    </main>
-    <footer class="footer dark-footer">
-        <a href="https://www.instagram.com" class="footer-link">Siguenos en Instagram!</a>
-    </footer>
+                </article>
+                
+                <!-- Eliminamos la línea estática de Bad Bunny que causaba conflicto y duplicidad -->
+            </div>
+        </main>
+        <footer class="footer dark-footer">
+            <a href="https://www.instagram.com" class="footer-link">Siguenos en Instagram!</a>
+        </footer>
     </div>
 </body>
+</html>

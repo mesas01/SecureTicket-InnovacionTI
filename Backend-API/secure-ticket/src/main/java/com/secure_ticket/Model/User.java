@@ -5,13 +5,23 @@ import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
 
 
 @Entity
+@Table(name = "user")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue("USER")
 public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -45,7 +55,24 @@ public class User {
     @Column(name = "USERNAME", nullable = false, unique = true)
     private String username;
 
+    @Column(name = "user_type", insertable = false, updatable = false)
+    private String userType;
+
+    public String getUserType() {
+        return userType;
+    }
+
     public User() {}
+
+    public User(String username, String email, String password, String phone, String address, String city, LocalDate dateOfBirth) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.address = address;
+        this.city = city;
+        this.dateOfBirth = dateOfBirth;
+    }
 
     public long getId() {
         return id;

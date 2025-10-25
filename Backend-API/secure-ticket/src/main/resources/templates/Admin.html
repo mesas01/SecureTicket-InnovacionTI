@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Panel de Administración - Secure Ticket</title>
+<link rel="stylesheet" th:href="@{/css/AdminStyle.css}">
+
+<script th:src="@{/js/admin_actions.js}"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <h1>Panel de Administración</h1>
+
+        <p><a th:href="@{/logout}">Cerrar Sesión</a></p>
+
+        <section class="admin-section users-section">
+            <h2>Gestión de Usuarios</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Teléfono</th>
+                        <th>Dirección</th>
+                        <th>Ciudad</th>
+                        <th>Fecha de Nacimiento</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="userDto : ${allUsers}">
+                        <td th:text="${userDto.id}">1</td>
+                        <td th:text="${userDto.username}">user_ejemplo</td>
+                        <td th:text="${userDto.email}">ejemplo@mail.com</td>
+                        <td th:text="${userDto.userType}">Rol</td>
+                        <td th:text="${userDto.phone}">Teléfono</td>
+                        <td th:text="${userDto.address}">Dirección</td>
+                        <td th:text="${userDto.city}">Ciudad</td>
+                        <td th:text="${userDto.dateOfBirth}">Fecha de Nacimiento</td>
+                        <td>
+                            <form th:action="@{/admin/user/delete/{id}(id=${userDto.id})}" method="post" style="display:inline;">
+                                <button 
+                                    type="submit" 
+                                    class="btn-delete"
+                                    th:data-username="${userDto.username}" 
+                                    th:data-userid="${userDto.id}"
+                                    onclick="return confirmDeletion(this)">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <hr/>
+
+        <section class="admin-section event-add-section">
+            <h2>Añadir Nuevo Evento</h2>
+            <form th:action="@{/admin/add-event}" th:object="${newEvent}" method="post" enctype="multipart/form-data">
+                <div class="form-group"><label for="name">Título:</label><input type="text" id="name" th:field="*{name}" required></div>
+                <div class="form-group"><label for="date">Fecha:</label><input type="date" id="date" th:field="*{date}" required></div>
+                <div class="form-group"><label for="location">Lugar:</label><input type="text" id="location" th:field="*{location}" required></div>
+                <div class="form-group"><label for="artist">Artista:</label><input type="text" id="artist" th:field="*{artist}" required></div>
+                <div class="form-group"><label for="imageFile">Imagen:</label><input type="file" id="imageFile" name="imageFile" required></div>
+                <button type="submit" class="btn btn-primary">Guardar Evento</button>
+            </form>
+        </section>
+        
+        <hr/>
+
+        <section class="admin-section events-list-section">
+            <h2>Eventos Existentes</h2>
+            <table>
+                <thead>
+                    <tr><th>ID</th><th>Título</th><th>Lugar</th><th>Artista</th><th>Imagen</th><th>Acciones</th></tr>
+                </thead>
+                <tbody>
+                    <tr th:each="event : ${allEvents}">
+                        <td th:text="${event.id}"></td>
+                        <td th:text="${event.name}"></td>
+                        <td th:text="${event.location}"></td>
+                        <td th:text="${event.artist}"></td>
+                        <td><img th:src="${event.imageUrl}" alt="Imagen del evento" style="max-width: 100px; max-height: 100px;"></td>
+                        <td>
+                            <form th:action="@{/admin/event/delete/{id}(id=${event.id})}" method="post" style="display:inline;">
+                                <button 
+                                    type="submit" 
+                                    class="btn-delete"
+                                    th:data-eventtitle="${event.name}" 
+                                    onclick="return confirmEventDeletion(this)"> 
+                                    Eliminar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+    </div>
+</body>
+</html>

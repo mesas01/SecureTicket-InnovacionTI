@@ -26,4 +26,45 @@ public class Event {
     @Column(name = "LOCATION", nullable = false)
     private String location;
 
+    @Column(name = "IMAGE_URL", nullable = true)
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+    public String getLocation() {
+        return location;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getArtist() {
+        return artist;
+    }
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+    public LocalDate getDate() {
+        return date;
+    }
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+    public Event() {}
+
 }
