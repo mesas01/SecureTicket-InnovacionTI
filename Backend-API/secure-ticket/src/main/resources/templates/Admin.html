@@ -57,7 +57,6 @@
         </section>
         
         <hr/>
-
         <section class="admin-section event-add-section">
             <h2>Añadir Nuevo Evento</h2>
             <form th:action="@{/admin/add-event}" th:object="${newEvent}" method="post" enctype="multipart/form-data">
@@ -87,8 +86,8 @@
                         <td><img th:src="${event.imageUrl}" alt="Imagen del evento" style="max-width: 100px; max-height: 100px;"></td>
                         <td>
                             <form th:action="@{/admin/event/delete/{id}(id=${event.id})}" method="post" style="display:inline;">
-                                <button 
-                                    type="submit" 
+                                <button
+                                    type="submit"
                                     class="btn-delete"
                                     th:data-eventtitle="${event.name}" 
                                     onclick="return confirmEventDeletion(this)"> 
@@ -99,6 +98,47 @@
                     </tr>
                 </tbody>
             </table>
+            <section class="admin-section requests-section">
+            <h2>Solicitudes de Soporte</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuario</th>
+                        <th>Tipo</th>
+                        <th>Evento Solicitado</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="request : ${requestDtos}"> 
+                        <td th:text="${request.id}"></td>
+                        <td th:text="${request.username}"></td> <td th:text="${request.type}"></td>     <td th:text="${request.eventName != null ? request.eventName : '-'}"></td>
+                        <td th:text="${request.status}"></td>
+                        <td>
+                            <form th:action="@{/admin/request/change-status/{id}(id=${request.id})}" method="post" style="display:inline;">
+                                <button
+                                    type="submit"
+                                    class="btn-status"
+                                    th:classappend="${request.status == 'Pendiente'} ? 'btn-pending' : (${request.status == 'En Proceso'} ? 'btn-progress' : 'btn-resolved')"
+                                    th:text="${'Cambiar a ' + (request.status == 'Pendiente' ? 'En Proceso' : (request.status == 'En Proceso' ? 'Resuelto' : 'Pendiente'))}"> 
+                                    Cambiar Estado
+                                </button>
+                            </form>
+                            
+                            <button
+                                type="button"
+                                class="btn-details"
+                                th:attr="data-description=${request.description}"
+                                onclick="alert('Descripción: ' + this.getAttribute('data-description'))">
+                                Ver Descripción
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
         </section>
         
     </div>

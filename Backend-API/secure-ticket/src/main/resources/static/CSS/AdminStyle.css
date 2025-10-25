@@ -37,7 +37,6 @@ h2 {
     margin-bottom: 15px;
 }
 
-/* Estilos de Sección */
 .admin-section {
     margin-bottom: 40px;
     padding: 20px;
@@ -46,7 +45,6 @@ h2 {
     background-color: #fff;
 }
 
-/* Estilos de Tabla */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -70,7 +68,6 @@ tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
-/* Estilos de Formularios (Añadir Eventos) */
 .form-group {
     margin-bottom: 15px;
     display: flex;
@@ -88,10 +85,9 @@ tr:nth-child(even) {
     border: 1px solid var(--color-border);
     border-radius: 4px;
     width: 100%;
-    box-sizing: border-box; /* Importante para el padding */
+    box-sizing: border-box;
 }
 
-/* Estilos de Botones */
 button[type="submit"],
 .btn-primary {
     background-color: var(--color-primary);
@@ -124,7 +120,6 @@ button[type="submit"]:hover,
     background-color: #c82333;
 }
 
-/* Enlace de Cerrar Sesión */
 p a {
     color: var(--color-danger);
     text-decoration: none;
@@ -135,11 +130,10 @@ p a:hover {
     text-decoration: underline;
 }
 
-/* Intenta anular cualquier estilo problemático solo para el input de fecha */
 input#date[type="date"] {
-    display: inline-block !important; /* Asegura que no está oculto */
-    visibility: visible !important;   /* Asegura que no está oculto */
-    height: 40px !important;          /* Dale una altura mínima */
+    display: inline-block !important;
+    visibility: visible !important;
+    height: 40px !important;
     padding: 5px !important;
     box-sizing: border-box !important;
 }

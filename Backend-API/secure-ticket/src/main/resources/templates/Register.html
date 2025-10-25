@@ -8,11 +8,9 @@
 <body>
     <div class="form-container large-container">
         <h1>Registro de Nuevo Usuario</h1>
-
         <div th:if="${errorMessage}" class="message error-message">
             <p th:text="${errorMessage}"></p>
         </div>
-
         <form th:action="@{/register}" th:object="${user}" method="post">
             
             <div class="form-row">
@@ -25,7 +23,6 @@
                     <input type="text" id="username" th:field="*{username}" required>
                 </div>
             </div>
-
             <div class="form-row">
                 <div class="form-group half-width">
                     <label for="email">Correo Electrónico:</label>
@@ -36,7 +33,6 @@
                     <input type="password" id="password" th:field="*{password}" required>
                 </div>
             </div>
-
             <div class="form-row">
                 <div class="form-group half-width">
                     <label for="idCard">Cédula / ID Card:</label>
@@ -47,7 +43,6 @@
                     <input type="text" id="phone" th:field="*{phone}" required>
                 </div>
             </div>
-
             <div class="form-row">
                 <div class="form-group half-width">
                     <label for="city">Ciudad:</label>
@@ -66,7 +61,6 @@
             <button type="submit">Crear Cuenta</button>
             
         </form>
-        
         <p class="login-link">¿Ya tienes una cuenta? <a th:href="@{/login}">Inicia sesión aquí</a></p>
     </div>
 </body>

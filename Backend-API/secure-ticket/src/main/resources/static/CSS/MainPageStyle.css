@@ -3,7 +3,7 @@
     --color-card-oscuro: #263238;
     --color-texto-claro: #E0E0E0;
     --color-texto-secundario: #B0BEC5;
-    --color-acento-principal: #82B1FF; /* Azul claro/púrpura para acento */
+    --color-acento-principal: #82B1FF; 
     --color-acento-hover: #64B5F6;
     --color-borde-oscuro: #37474F;
     --color-sombra-suave-oscuro: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -11,7 +11,6 @@
     --color-stock-bajo: #EF5350;
 }
 
-/* Base y tipografía */
 body { margin: 0; padding: 0; box-sizing: border-box; }
 .boleta-plataforma.dark-minimal {
     font-family: 'Inter', sans-serif;
@@ -24,7 +23,6 @@ body { margin: 0; padding: 0; box-sizing: border-box; }
 
 * { box-sizing: inherit; }
 
-/* Encabezado (Header) */
 .header {
     background-color: var(--color-card-oscuro);
     padding: 15px 50px;
@@ -36,11 +34,9 @@ body { margin: 0; padding: 0; box-sizing: border-box; }
 }
 .logo { color: var(--color-acento-principal); font-size: 1.7em; font-weight: 700; margin: 0; letter-spacing: 0.5px; }
 
-/* Navegación (Nav) */
 .nav .nav-link { margin: 0 15px; text-decoration: none; color: var(--color-texto-secundario); font-weight: 500; transition: color 0.2s ease-in-out; font-size: 0.9em; }
 .nav .nav-link:hover { color: var(--color-acento-principal); }
 
-/* Botones y Acciones de Usuario */
 .usuario-acciones { display: flex; align-items: center; }
 .user-greeting { color: var(--color-texto-claro); margin-right: 10px; font-size: 0.9em; font-weight: 500;}
 .btn { padding: 8px 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.2s ease-in-out; margin-left: 10px; font-size: 0.9em; }
@@ -49,7 +45,6 @@ body { margin: 0; padding: 0; box-sizing: border-box; }
 .btn.btn-ghost { background-color: transparent; color: var(--color-texto-secundario); border: 1px solid var(--color-borde-oscuro); }
 .btn.btn-ghost:hover { background-color: var(--color-borde-oscuro); color: var(--color-texto-claro); }
 
-/* Contenido Principal (Main) */
 .main-contenido {
     flex-grow: 1;
     padding: 40px 50px;
@@ -66,7 +61,6 @@ body { margin: 0; padding: 0; box-sizing: border-box; }
     text-align: center;
 }
 
-/* Filtros y Búsqueda */
 .filtro-busqueda {
     display: flex;
     gap: 15px;
@@ -87,16 +81,13 @@ body { margin: 0; padding: 0; box-sizing: border-box; }
 .btn.btn-secondary:hover { background-color: var(--color-acento-principal); color: var(--color-fondo-oscuro); }
 
 
-/* === Contenedor de Eventos (Grid Responsivo) === */
 .eventos-wrapper {
     display: grid;
-    /* Crea columnas con un ancho mínimo de 280px */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
     padding-bottom: 0; 
 }
 
-/* Tarjeta de Evento */
 .tarjeta-evento.dark-card {
     width: 100%;
     background-color: var(--color-card-oscuro);
@@ -115,9 +106,9 @@ body { margin: 0; padding: 0; box-sizing: border-box; }
 }
 
 .imagen-evento {
-    border-radius: 8px 8px 0 0; /* Bordes redondeados solo arriba */
+    border-radius: 8px 8px 0 0;
     width: 100%;
-    height: 180px; 
+    height: 180px;
     object-fit: cover;
 }
 
@@ -125,7 +116,7 @@ body { margin: 0; padding: 0; box-sizing: border-box; }
     padding: 15px;
     display: flex;
     flex-direction: column;
-    flex-grow: 1; /* Permite que el contenido se estire */
+    flex-grow: 1;
 }
 
 .fecha { font-size: 0.8em; margin-bottom: 5px; color: var(--color-acento-principal); }
@@ -135,48 +126,30 @@ body { margin: 0; padding: 0; box-sizing: border-box; }
 .lugar { font-size: 0.85em; margin-bottom: 5px; color: var(--color-texto-secundario); }
 .artista { font-size: 0.9em; margin-bottom: 15px; color: var(--color-texto-secundario); }
 
-/* Estilo para el botón Ver Detalles */
-.btn.btn-full { 
-    width: 100%; 
-    padding: 10px; 
-    font-size: 1em; 
+.btn.btn-full {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
     background-color: var(--color-acento-principal); 
     color: var(--color-fondo-oscuro); 
     border-radius: 6px; 
     text-align: center;
     text-decoration: none;
-    margin-top: auto; /* Empuja el botón al final de la tarjeta */
+    margin-top: auto;
 }
 
 .btn.btn-full:hover { background-color: var(--color-acento-hover); }
 
 
-/* Pie de Página (Footer) */
-.footer.dark-footer { 
-    background-color: var(--color-card-oscuro); 
-    color: var(--color-texto-secundario); 
-    text-align: center; 
-    padding: 20px 0; 
-    margin-top: 40px; 
-    font-size: 0.8em; 
+.footer.dark-footer {
+    background-color: var(--color-card-oscuro);
+    color: var(--color-texto-secundario);
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    font-size: 0.8em;
     border-top: 1px solid var(--color-borde-oscuro);
 }
 
 .footer.dark-footer .footer-link { color: var(--color-acento-principal); text-decoration: none; font-weight: 600; }
 .footer.dark-footer .footer-link:hover { text-decoration: underline; }
-
-/* === Adaptación a Móviles (Responsividad) === */
-@media (max-width: 768px) {
-    .header { padding: 10px 20px; flex-wrap: wrap; }
-    .nav { order: 2; width: 100%; text-align: center; margin-top: 10px; }
-    .nav .nav-link { margin: 0 10px; }
-    .usuario-acciones { margin-top: 10px; }
-    .main-contenido { padding: 20px; }
-    .filtro-busqueda { flex-direction: column; }
-    .search-box { max-width: 100%; }
-    
-    .eventos-wrapper {
-        /* En móvil, solo una columna de ancho completo */
-        grid-template-columns: 1fr; 
-    }
-}

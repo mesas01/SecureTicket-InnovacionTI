@@ -1,5 +1,3 @@
-// src/main/java/com/secure_ticket/Service/UserService.java
-
 package com.secure_ticket.Service;
 
 import java.util.List;
@@ -38,8 +36,7 @@ public class UserService {
 
     public List<AdminDTO> findAllAdminDTOs() {
         return userRepository.findAll().stream()
-            // Convierte cada entidad User a un objeto UserAdminDTO
-            .map(this::convertToAdminDTO) 
+            .map(this::convertToAdminDTO)
             .collect(Collectors.toList());
     }
 

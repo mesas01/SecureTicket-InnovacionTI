@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitud de Soporte - Secure Ticket</title>
+    <link rel="stylesheet" th:href="@{/css/RequestStyle.css}"> 
+    <script th:src="@{/js/Request.js}"></script>
+</head>
+<header class="header">
+    <a class="logo" th:href="@{/}">Secure Ticket</a>
+    <nav class="nav">
+        <a th:href="@{/eventos}" class="nav-link">Eventos</a>
+        <a th:href="@{/vender}" class="nav-link">Vender</a>
+        <a th:href="@{/support}" class="nav-link">Soporte</a>
+    </nav>
+</header>
+<body>
+    <div class="large-container">
+        <h1>Solicitud de Soporte</h1>
+
+        <div th:if="${successMessage}" class="message success-message">
+            <p th:text="${successMessage}"></p>
+        </div>
+        <div th:if="${errorMessage}" class="message error-message">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
+        <form th:action="@{/support}" th:object="${request}" method="post">
+            
+            <div class="form-group">
+                <label for="type">Tipo de Solicitud:</label>
+                <select id="type" th:field="*{type}" required onchange="toggleEventNameField()">
+                    <option value="">Seleccione un tipo...</option>
+                    <option value="Evento nuevo">Solicitud de Nuevo Evento</option>
+                    <option value="Problema general">Problema General / Bug</option>
+                    <option value="Problema de cuenta">Problema de Cuenta (Login, Datos)</option>
+                    <option value="Otro">Otro</option>
+                </select>
+            </div>
+            
+            <div class="form-group" id="eventNameGroup" style="display:none;">
+                <label for="eventName">Nombre del Evento (obligatorio para esta solicitud):</label>
+                <input type="text" id="eventName" th:field="*{eventName}">
+            </div>
+
+            <div class="form-group">
+                <label for="description">Descripción del Problema/Solicitud:</label>
+                <textarea id="description" th:field="*{description}" rows="6" required></textarea>
+            </div>
+            
+            <button type="submit">Enviar Solicitud</button>
+            
+        </form>
+        <section class="user-requests-section">
+            <h2>Mis Solicitudes de Soporte</h2>
+            <div th:if="${ not #lists.isEmpty(Requests)}">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                            <th>Evento Solicitado</th>
+                            <th>Detalles</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="req : ${Requests}">
+                            <td th:text="${req.type}"></td>
+                            <td>
+                                <span
+                                    class="status-badge"
+                                    th:classappend="'status-' + ${#strings.replace(req.status, ' ', '')}"
+                                    th:text="${req.status}">
+                                    Estado
+                                </span>
+                            </td>
+                            <td th:text="${req.eventName != null ? req.eventName : '-'}"></td>
+                            <td>
+                                <p class="details-link"
+                                th:text="${req.description}"
+                                ></p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div th:if="${#lists.isEmpty(Requests)}">
+                <p >Aún no has enviado ninguna solicitud de soporte.</p>
+            </div>
+        
+        <p class="login-link"><a th:href="@{/}">Volver a la página principal</a></p>
+        </section>
+    </div>
+</body>
+</html>

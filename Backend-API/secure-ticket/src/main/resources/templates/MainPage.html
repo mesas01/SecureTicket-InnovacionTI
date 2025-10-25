@@ -12,7 +12,7 @@
             <nav class="nav">
                 <a th:href="@{/eventos}" class="nav-link">Eventos</a>
                 <a th:href="@{/vender}" class="nav-link">Vender</a>
-                <a th:href="@{/ayuda}" class="nav-link">Soporte</a>
+                <a th:href="@{/support}" class="nav-link">Soporte</a>
             </nav>
             <div class="usuario-acciones">
                 <span th:if="${session.currentUser}">
@@ -38,28 +38,16 @@
             </section>
             
             <div class="eventos-wrapper">
-                <!-- El bucle th:each se coloca en la etiqueta <article> para generar una tarjeta por cada evento -->
                 <article th:each="event : ${events}" class="tarjeta-evento dark-card">
-                    
-                    <!-- 1. Imagen (ahora toma el src de Cloudinary) -->
                     <img th:src="@{${event.imageUrl}}" alt="Imagen del Evento" class="imagen-evento">
-                    
                     <div class="info-evento">
-                        <!-- 2. Fecha -->
                         <p class="fecha" th:text="'Fecha: ' + ${event.date}"></p>
-                        <!-- 3. Título/Nombre -->
                         <h3 class="titulo-evento" th:text="${event.name}"></h3>
-                        <!-- 4. Lugar/Ubicación -->
                         <p class="lugar" th:text="'Lugar: ' + ${event.location}"></p>
-                        <!-- 5. Artista (Sintaxis Thymeleaf corregida) -->
                         <p class="artista" th:text="'Artista: ' + ${event.artist}"></p>
-
-                        <!-- Aquí puedes añadir un botón o enlace para ver los detalles -->
                         <a th:href="@{'/eventos/' + ${event.id}}" class="btn btn-full">Ver Detalles</a>
                     </div>
                 </article>
-                
-                <!-- Eliminamos la línea estática de Bad Bunny que causaba conflicto y duplicidad -->
             </div>
         </main>
         <footer class="footer dark-footer">
