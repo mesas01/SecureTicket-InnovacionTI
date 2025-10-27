@@ -41,8 +41,8 @@
                         <td th:text="${userDto.dateOfBirth}">Fecha de Nacimiento</td>
                         <td>
                             <form th:action="@{/admin/user/delete/{id}(id=${userDto.id})}" method="post" style="display:inline;">
-                                <button 
-                                    type="submit" 
+                                <button
+                                    type="submit"
                                     class="btn-delete"
                                     th:data-username="${userDto.username}" 
                                     th:data-userid="${userDto.id}"
@@ -89,8 +89,8 @@
                                 <button
                                     type="submit"
                                     class="btn-delete"
-                                    th:data-eventtitle="${event.name}" 
-                                    onclick="return confirmEventDeletion(this)"> 
+                                    th:data-eventtitle="${event.name}"
+                                    onclick="return confirmEventDeletion(this)">
                                     Eliminar
                                 </button>
                             </form>
@@ -121,18 +121,25 @@
                                 <button
                                     type="submit"
                                     class="btn-status"
-                                    th:classappend="${request.status == 'Pendiente'} ? 'btn-pending' : (${request.status == 'En Proceso'} ? 'btn-progress' : 'btn-resolved')"
-                                    th:text="${'Cambiar a ' + (request.status == 'Pendiente' ? 'En Proceso' : (request.status == 'En Proceso' ? 'Resuelto' : 'Pendiente'))}"> 
+                                    th:data-requestid="${request.id}"
+                                    th:onclick="'return confirmStatusChange(this)'">
                                     Cambiar Estado
                                 </button>
                             </form>
-                            
-                            <button
-                                type="button"
-                                class="btn-details"
-                                th:attr="data-description=${request.description}"
-                                onclick="alert('Descripción: ' + this.getAttribute('data-description'))">
-                                Ver Descripción
+                                <button
+                                    type="submit"
+                                    class="btn-status"
+                                    th:attr="data-description=${request.description}"
+                                    onclick="alert('Descripción: ' + this.getAttribute('data-description'))">
+                                    Ver Descripción
+                                </button>
+                                <button
+                                    type="submit"
+                                    class="btn-status"
+                                    th:data-requestid="${request.id}"
+                                    th:data-username="${request.username}"
+                                    onclick="showInfoRequestForm(this.getAttribute('data-requestid'), this.getAttribute('data-username'))">
+                                    Pedir información
                             </button>
                         </td>
                     </tr>

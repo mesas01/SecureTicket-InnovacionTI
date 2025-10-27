@@ -30,6 +30,11 @@ public class Request {
 
     @Column(name = "TYPE", nullable = false)
     private String type;
+
+    @Column(name = "ADMIN_COMMENT", nullable = true)
+    private String adminComment;
+
+
     public Request() {
         this.status = "Pendiente";
     }
@@ -40,6 +45,14 @@ public class Request {
         this.userId = userId;
         this.eventName = eventName;
         this.type = type;
+    }
+
+    public String getAdminComment() {
+        return adminComment;
+    }
+
+    public void setAdminComment(String adminComment) {
+        this.adminComment = adminComment;
     }
 
     public long getId() {
