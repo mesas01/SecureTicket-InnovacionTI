@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable; 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,32 +26,38 @@ import com.secure_ticket.Repository.EventRepository;
 import com.secure_ticket.Repository.RequestRepository; 
 import com.secure_ticket.Repository.UserRepository;
 import com.secure_ticket.Service.CloudinaryService;
+import com.secure_ticket.Service.EmailService;
 import com.secure_ticket.Service.UserService;
+
+
 
 @Controller
 @RequestMapping("/admin") 
 public class AdminController {
 
 
-    private final UserService userService; 
-    private final EventRepository eventRepository; 
+    private final UserService userService;
+    private final EventRepository eventRepository;
     private final CloudinaryService cloudinaryService;
-    private final RequestRepository requestRepository; 
+    private final RequestRepository requestRepository;
     private final UserRepository userRepository;
+    private final EmailService emailService;
+
 
     public AdminController(
     UserService userService, 
     EventRepository eventRepository, 
     CloudinaryService cloudinaryService,
     RequestRepository requestRepository,
-    UserRepository userRepository
-
+    UserRepository userRepository,
+    EmailService emailService
     ) {
         this.userService = userService;
         this.eventRepository = eventRepository;
         this.cloudinaryService = cloudinaryService;
         this.requestRepository = requestRepository;
         this.userRepository = userRepository;
+        this.emailService = emailService;
     }
 
 
@@ -132,6 +139,20 @@ public class AdminController {
             }
             
             requestRepository.save(request);
+
+            Optional<User> userOpt = userRepository.findById(request.getUserId());
+
+            if (userOpt.isPresent()) {
+                User user = userOpt.get();
+                try{
+                    emailService.sendStatusUpdateEmail(user.getEmail(), user.getUsername(), request);
+                } catch(Exception e){
+                    System.out.println("Error sending email: " + e.getMessage());
+                }
+            } else{
+                redirectAttributes.addFlashAttribute("errorMessage", "Usuario asociado a la solicitud no encontrado.");
+            }
+
             redirectAttributes.addFlashAttribute("successMessage", "Estado de la solicitud ID " + id + " actualizado a: " + request.getStatus());
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "Solicitud no encontrada.");
@@ -139,4 +160,45 @@ public class AdminController {
 
         return "redirect:/admin";
     }
+
+    @PostMapping("/request/ask-info/{id}")
+    public String askForMoreInfo(
+            @PathVariable Long id,
+            @RequestParam("adminComment") String adminComment,
+            RedirectAttributes redirectAttributes) {
+
+        Optional<Request> requestOpt = requestRepository.findById(id);
+
+        if (requestOpt.isPresent()) {
+            Request request = requestOpt.get();
+            
+            request.setStatus("Info Requerida");
+            request.setAdminComment(adminComment);
+            requestRepository.save(request);
+
+            Optional<User> userOpt = userRepository.findById(request.getUserId());
+
+            if (userOpt.isPresent()) {
+                User user = userOpt.get();
+                try {
+                    emailService.sendInformationEmail(user, request, adminComment);
+                    redirectAttributes.addFlashAttribute("successMessage",
+                        "Solicitud ID " + id + " marcada como 'Info Requerida' y correo enviado a " + user.getEmail() + " con el mensaje.");
+                } catch (Exception e) {
+                    redirectAttributes.addFlashAttribute("errorMessage",
+                        "Estado actualizado, pero falló el envío de correo de solicitud de información. Error: " + e.getMessage());
+                }
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage",
+                    "Estado actualizado, pero el usuario no fue encontrado.");
+            }
+            
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Solicitud no encontrada.");
+        }
+
+        return "redirect:/admin";
+    }
+    
+
 }
